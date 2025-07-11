@@ -1,0 +1,48 @@
+
+
+public class AmazonDelivery {
+    public static int[] shortestPath(char[][] map, int[][] queries) {
+        int m = map.length;
+        int n = map[0].length;
+        int[][] dist = new int[m][n];             // taking grid of same size as queries[][]
+        for (int[] row : dist) Arrays.fill(row, -1);  //we mark all the cells as not visited 
+
+        Queue<int[]> queue = new LinkedList<>();      
+
+        
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (map[i][j] == 'A') {
+                    queue.offer(new int[]{i, j});      // adding all positions of A to the queue
+                    dist[i][j] = 0;                  // updating all positions of A in dist to 0
+                }
+            }
+        }
+
+        int[][] dirs = {{1,0},{-1,0},{0,1},{0,-1}};        
+
+       
+        while (!queue.isEmpty()) {              // Bfs from all positons of A in the queue 
+            int[] cur = queue.poll();
+
+            for (int[] d : dirs) {
+                int x = curr[0]+ d[0], n = curr[1] + d[1];           // checking all four directions 
+                if (x >= 0 && y >= 0 && x < m && y < n                // if its valid path and if its 'o' then updating that cell to 1.
+                        && map[x][y] == 'O' && dist[x][y] == -1) {
+                    dist[x][y] = dist[curr[0]][curr[1]] + 1;
+                    queue.offer(new int[]{x, y});                      // add the cell{x,y} to queue
+                }
+            }
+        }
+
+        
+        int[] result = new int[queries.length];            // we have 2D grid extarct each queries and extract values in the grid of that particular position
+        for (int i = 0; i < queries.length; i++) {
+            int x = queries[i][0], y = queries[i][1];
+            result[i] = dist[x][y];
+        }
+        return result;
+    }
+    
+
+    
